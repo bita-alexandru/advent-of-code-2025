@@ -1,3 +1,5 @@
+package adventofcode.day01
+
 import scala.io.Source
 import java.io.File
 
