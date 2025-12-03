@@ -6,10 +6,10 @@ def input(isExample: Boolean) =
     val inputFile = if isExample then "example.txt" else "input.txt"
     Source.fromFile(inputFile)
         .getLines()
-            .map:
-                case s"L$rotation" => -rotation.toInt
-                case s"R$rotation" => rotation.toInt
-            .toSeq
+        .map:
+            case s"L$rotation" => -rotation.toInt
+            case s"R$rotation" => rotation.toInt
+        .toSeq
 end input
 
 def part1(isExample: Boolean = false) = 
