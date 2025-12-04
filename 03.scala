@@ -32,11 +32,10 @@ def part2(isExample: Boolean = false) =
             val bankSorted = bank.sortBy((value, pos) => -value.toInt)
             val bankLength = bank.length
             (1 to 11).foldLeft(List(bankSortedDropLast.head)): (acc, curr) =>
-                val toAppend = bankSorted.collectFirst:
+                bankSorted.collectFirst:
                     case element if element._2 > acc.head._2 && bankLength - element._2 >= 12 - acc.length =>
                         element
-                .get
-                toAppend :: acc
+                .get :: acc
             .sortBy((value, pos) => pos)
             .map(_._1)
             .mkString
