@@ -15,48 +15,46 @@ end input
 
 def part1(isExample: Boolean = false) = 
     val diagram = input(isExample)
-    {
-        for row <- 0 until diagram.length
-            col <- 0 until diagram(row).length
-            if diagram(row)(col) == '@'
-            if Seq((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
-                .foldLeft(0): (acc, d) =>
-                    val rowd = row + d._1
-                    val cold = col + d._2
-                    if rowd < 0 || rowd >= diagram.length || cold < 0 || cold >= diagram(0).length then
-                        acc
-                    else
-                        acc + (if diagram(rowd)(cold) == '@' then 1 else 0)
-            < 4
-        yield (row, col)
-    }.length
+    val rollsSet = { 
+        for i <- 0 until diagram.length
+            j <- 0 until diagram(0).length
+            if diagram(i)(j) == '@'
+        yield (i, j)
+    }.toSet
+
+    Iterator.iterate(rollsSet): currRolls =>
+        currRolls.filter: (i, j) =>
+            Seq((-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1))
+                .map: (di, dj) =>
+                    currRolls.contains((di + i, dj + j)).compareTo(false)
+                .sum < 4
+    .sliding(2)
+    .collectFirst:
+        case Seq(prev, curr) if prev.size == curr.size => curr.size
+    .get
 end part1
 
 def part2(isExample: Boolean = false) =
     val diagram = input(isExample)
+    val rollsSet = { 
+        for i <- 0 until diagram.length
+            j <- 0 until diagram(0).length
+            if diagram(i)(j) == '@'
+        yield (i, j)
+    }.toSet
 
-    @tailrec
-    def countRemoved(removedSet: Set[(Int, Int)] = Set.empty): Int =
-        val removed =
-            for row <- 0 until diagram.length
-                col <- 0 until diagram(row).length
-                if diagram(row)(col) == '@' && !removedSet.contains((row, col))
-                if Seq((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
-                    .foldLeft(0): (acc, d) =>
-                        val rowd = row + d._1
-                        val cold = col + d._2
-                        if rowd < 0 || rowd >= diagram.length || cold < 0 || cold >= diagram(0).length then
-                            acc
-                        else
-                            acc + (if diagram(rowd)(cold) == '@' && !removedSet.contains((rowd, cold)) then 1 else 0)
-                < 4
-            yield (row, col)
-        if removed.length == 0 then removedSet.size
-        else
-            countRemoved(removedSet.union(removed.toSet))
-    end countRemoved
-
-    countRemoved()
+    Iterator.iterate(rollsSet): currRolls =>
+        currRolls.filter: (i, j) =>
+            Seq((-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1))
+                .map: (di, dj) =>
+                    currRolls.contains((di + i, dj + j)).compareTo(false)
+                .sum >= 4
+    .sliding(2)
+    .collectFirst:
+        case Seq(prev, curr) if prev.size == curr.size => curr.size
+    .get
+    .-(rollsSet.size)
+    .abs
 end part2
 
 @main def main() =
