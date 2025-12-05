@@ -1,13 +1,8 @@
 package adventofcode.day04
 
-import scala.io.Source
-import scala.annotation.tailrec
-import scala.runtime.LazyBoolean
-import scala.runtime.LazyVals
-
 def input(isExample: Boolean) =
     val inputFile = if isExample then "example.txt" else "input.txt"
-    Source.fromFile(inputFile)
+    scala.io.Source.fromFile(inputFile)
         .getLines()
         .map(_.strip())
         .toSeq
@@ -28,7 +23,6 @@ def part1(isExample: Boolean = false) =
                 rollsSet.contains((di + i, dj + j)).compareTo(false)
             .sum < 4
     .size
-
 end part1
 
 def part2(isExample: Boolean = false) =

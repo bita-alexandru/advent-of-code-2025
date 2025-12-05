@@ -1,11 +1,8 @@
 package adventofcode.day02
 
-import scala.io.Source
-import scala.annotation.tailrec
-
 def input(isExample: Boolean) =
     val inputFile = if isExample then "example.txt" else "input.txt"
-    Source.fromFile(inputFile)
+    scala.io.Source.fromFile(inputFile)
         .mkString
         .split(",")
         .map:

@@ -1,10 +1,8 @@
 package adventofcode.day01
 
-import scala.io.Source
-
 def input(isExample: Boolean) =
     val inputFile = if isExample then "example.txt" else "input.txt"
-    Source.fromFile(inputFile)
+    scala.io.Source.fromFile(inputFile)
         .getLines()
         .map:
             case s"L$rotation" => -rotation.toInt
