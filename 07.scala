@@ -1,7 +1,5 @@
 package adventofcode.day07
 
-import scala.annotation.tailrec
-
 def input(isExample: Boolean) =
     val inputFile = if isExample then "example.txt" else "input.txt"
     val manifold = scala.io.Source.fromFile(inputFile)
